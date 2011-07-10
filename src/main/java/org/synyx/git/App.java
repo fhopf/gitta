@@ -28,7 +28,7 @@ public class App {
         Iterator it = call.iterator();
         while (it.hasNext()) {
             RevCommit o = (RevCommit) it.next();
-            System.out.println(o.getAuthorIdent().getName() + ": " + o.getShortMessage());
+            System.out.println(o.getId().getName() + " " + o.getAuthorIdent().getName() + ": " + o.getShortMessage());
         }
 
     }
