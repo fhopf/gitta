@@ -10,18 +10,18 @@ import java.io.File
  */
 object RepositoryService {
 
-  def updateRepo() = {
-    val clone = new CloneCommand();
-    val git = clone.setURI("http://git.synyx.org/opencms-solr-module.git").call();
+  def updateRepo(repo: Repository) = {
+    val clone = new CloneCommand().setDirectory(repo.folder);
+    val git = clone.setURI(repo.url).call();
 
     git.pull().call();
 
   }
 
-  def log() = {
+  def log(repo: Repository) = {
 
     val builder = new RepositoryBuilder();
-    val repository = builder.setGitDir(new File("/my/git/directory"))
+    val repository = builder.setGitDir(repo.folder)
     .readEnvironment() // scan environment GIT_* variables
     .findGitDir() // scan up the file system tree
     .build();
