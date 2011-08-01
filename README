@@ -1,0 +1,5 @@
+Gitta - an IRC bot that can monitor Git repositories and log commits in IRC.
+
+Still no real functionality, work in progress.
+
+This is my first project in Scala so it's likely that the code will be quite Javaesque.
