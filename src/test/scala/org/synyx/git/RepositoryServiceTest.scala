@@ -3,10 +3,11 @@ package org.synyx.git
 import org.scalatest.FunSuite
 import java.io.File
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.matchers.ShouldMatchers
 import org.junit.runner.RunWith
 
 @RunWith(classOf[JUnitRunner])
-class RepositoryServiceTest extends FunSuite {
+class RepositoryServiceTest extends FunSuite with ShouldMatchers {
 
   val service = RepositoryService
 
@@ -15,9 +16,9 @@ class RepositoryServiceTest extends FunSuite {
     
     service.updateRepo(repo)
 
-    assert(repo.folder.exists)
+    repo.folder.exists should be(true)
     val gitDir = new File(repo.folder, ".git")
-    assert(gitDir.exists)
+    gitDir.exists should be(true)
 
   }
 
