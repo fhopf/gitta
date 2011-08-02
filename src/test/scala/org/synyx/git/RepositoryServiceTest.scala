@@ -22,4 +22,20 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
 
   }
 
+  test("log returns a list of commits") {
+    val repo = new Repository(new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
+
+    service.updateRepo(repo)
+
+    import scala.collection.JavaConversions._
+
+    val commits = service.log(repo)
+
+    commits.isEmpty should be(false)
+
+    for (commit <- commits) {
+      println(commit)
+    }
+
+  }
 }
