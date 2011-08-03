@@ -11,10 +11,15 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
 
   val service = RepositoryService
 
-  test("repository is created") {
-    val repo = new Repository(new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
-    
+  def setupRepo() = {
+    val repo = new Repository("test", new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
     service.updateRepo(repo)
+    repo
+  }
+
+  test("repository is created") {
+
+    val repo = setupRepo
 
     repo.folder.exists should be(true)
     val gitDir = new File(repo.folder, ".git")
@@ -23,12 +28,9 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
   }
 
   test("log returns a list of commits") {
-    val repo = new Repository(new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
-
-    service.updateRepo(repo)
+    val repo = setupRepo
 
     import scala.collection.JavaConversions._
-
     val commits = service.log(repo)
 
     commits.isEmpty should be(false)
