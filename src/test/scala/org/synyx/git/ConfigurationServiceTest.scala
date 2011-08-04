@@ -9,9 +9,15 @@ import org.junit.runner.RunWith
 class ConfigurationServiceTest extends FunSuite with ShouldMatchers {
 
   test("illegal lines are skipped") {
-    import scala.collection.JavaConversions._
     val result = ConfigurationService.readRepositoryConfig("src/test/resources/repo.config")
     result.size should be(2)
+  }
+
+  test("legal lines are tokenized by blank") {
+    val result = ConfigurationService.readRepositoryConfig("src/test/resources/repo.config")
+    for (item <- result) {
+      item.size should be(3)
+    }
   }
 
 }

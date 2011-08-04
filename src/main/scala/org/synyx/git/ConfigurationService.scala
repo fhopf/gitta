@@ -8,7 +8,7 @@ object ConfigurationService {
 
   def readRepositoryConfig(path: String) = {
     val lines = Source.fromFile(path).getLines
-    val filtered = lines.filter(_.split(" ").length == 3)
+    val filtered = lines.map(_.split(" ")).filter(_.length == 3)
     filtered
   }
 
