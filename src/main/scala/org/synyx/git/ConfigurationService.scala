@@ -8,19 +8,10 @@ object ConfigurationService {
 
   def readRepositoryConfig(path: String) = {
     val lines = Source.fromFile(path).getLines
-    val filtered = lines.map(_.split(" ")).filter(_.length == 3)
+    val filtered = lines.map(_.split(" ")).filter(_.length == 3).map {
+      tokens: Array[String] => new Repository(tokens lift 0 get, new File(tokens lift 1 get), tokens lift 2 get)
+    }
     filtered
   }
-
-//      for (line <- ) {
-//      val tokens = line.split(" ")
-//      if (tokens.length < 3) {
-//        println("Skipping line");
-//      } else {
-//        result.add(new Repository(tokens(0), new File(tokens(1)), tokens(2)))
-//      }
-//    }
-//    result
-
 
 }
