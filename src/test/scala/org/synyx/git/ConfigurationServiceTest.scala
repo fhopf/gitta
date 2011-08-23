@@ -3,8 +3,7 @@ package org.synyx.git
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.matchers.ShouldMatchers
-import org.junit.runner.RunWith
-
+import org.junit.runner.{Result, RunWith}
 
 @RunWith(classOf[JUnitRunner])
 class ConfigurationServiceTest extends FunSuite with ShouldMatchers {
@@ -33,5 +32,22 @@ class ConfigurationServiceTest extends FunSuite with ShouldMatchers {
     repo2.name should be("anotherName")
     repo2.folder.getAbsolutePath should be("/some/path")
     repo2.url should be("https://url")
+  }
+
+  test("irc config object is IrcServer") {
+    val result = ConfigurationService.readIrcConfig("src/test/resources/irc.config")
+    assert(result.isInstanceOf[IrcServer])
+  }
+
+  test("irc config has server set") {
+    val result = ConfigurationService.readIrcConfig("src/test/resources/irc.config")
+    result.server should be("irc.synyx.de")
+  }
+
+  test("irc config has channels set") {
+    val result = ConfigurationService.readIrcConfig("src/test/resources/irc.config")
+    result.channels.length should be(2)
+    result.channels(0) should be("gitta")
+    result.channels(1) should be("testchannel")
   }
 }

@@ -14,4 +14,9 @@ object ConfigurationService {
     filtered
   }
 
+  def readIrcConfig(path: String) = {
+    val line = Source.fromFile(path).getLines.toList (0)
+    val tokens = line.split(" ")
+    new IrcServer(tokens(0), tokens.slice(1, tokens.length).toList)
+  }
 }
