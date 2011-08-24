@@ -13,22 +13,22 @@ class ConfigurationServiceTest extends FunSuite with ShouldMatchers {
     result.size should be(2)
   }
 
-  test("legal lines are converted to Repository") {
+  test("legal lines are converted to RepositoryConfig") {
     val result = ConfigurationService.readRepositoryConfig("src/test/resources/repo.config")
     for (item <- result) {
-      assert(item.isInstanceOf[Repository])
+      assert(item.isInstanceOf[RepositoryConfig])
     }
   }
 
   test("values are contained in right order") {
     val result = ConfigurationService.readRepositoryConfig("src/test/resources/repo.config").toList
     // first config line
-    val repo1: Repository = result.lift(0).get
+    val repo1: RepositoryConfig = result.lift(0).get
     repo1.name should be("name")
     repo1.folder.getAbsolutePath should be("/path")
     repo1.url should be("git://url")
     // last config line
-    val repo2: Repository = result.lift(1).get
+    val repo2: RepositoryConfig = result.lift(1).get
     repo2.name should be("anotherName")
     repo2.folder.getAbsolutePath should be("/some/path")
     repo2.url should be("https://url")

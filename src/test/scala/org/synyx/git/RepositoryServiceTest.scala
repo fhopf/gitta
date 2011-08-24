@@ -3,8 +3,8 @@ package org.synyx.git
 import org.scalatest.FunSuite
 import java.io.File
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.matchers.ShouldMatchers
 import org.junit.runner.RunWith
+import org.scalatest.matchers.ShouldMatchers
 
 @RunWith(classOf[JUnitRunner])
 class RepositoryServiceTest extends FunSuite with ShouldMatchers {
@@ -12,7 +12,7 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
   val service = RepositoryService
 
   def setupRepo() = {
-    val repo = new Repository("test", new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
+    val repo = new RepositoryConfig("test", new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");
     service.updateRepo(repo)
     repo
   }
@@ -39,5 +39,17 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
       println(commit)
     }
 
+  }
+
+  test("log single commit for existing commit") {
+    val repo = setupRepo()
+    val commit = service.log(repo, "762706406039595ddba0")
+    commit.getShortMessage() should be("more debug output")
+  }
+
+  test("log single commit for nonexisting commit") {
+    val repo = setupRepo()
+    val commit = service.log(repo, "nonexisting")
+    commit should be(null)
   }
 }

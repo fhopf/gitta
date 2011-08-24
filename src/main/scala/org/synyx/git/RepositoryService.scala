@@ -1,16 +1,16 @@
 package org.synyx.git
 
 import org.eclipse.jgit.api.{CloneCommand, LogCommand, Git}
-import org.eclipse.jgit.lib.RepositoryBuilder
-
 import java.io.File
+import org.eclipse.jgit.lib.{ObjectId, AnyObjectId, Repository, RepositoryBuilder}
+import org.eclipse.jgit.revwalk.{RevWalk, RevCommit}
 
 /**
  * Functionality for talking to a local and remote git repo.
  */
 object RepositoryService {
 
-  def updateRepo(repo: Repository) = {
+  def updateRepo(repo: RepositoryConfig) = {
     val clone = new CloneCommand().setDirectory(repo.folder);
     val git = clone.setURI(repo.url).call();
 
@@ -18,21 +18,33 @@ object RepositoryService {
 
   }
 
-  def log(repo: Repository) = {
+  def log(repo: RepositoryConfig) = {
 
     val git = readGitDir(repo)
     
     git.log().call();
   }
 
-  def readGitDir(repo: Repository) = {
-    val builder = new RepositoryBuilder();
-    val repository = builder.addCeilingDirectory(repo.folder)
-    .readEnvironment() // scan environment GIT_* variables
-    .findGitDir() // scan up the file system tree
-    .build();
+  def log(repo: RepositoryConfig, commit: String) = {
+    val jGitRepo = buildRepo(repo)
 
-    new Git(repository);
+    val commitObject = jGitRepo.resolve(commit)
+    if (commitObject != null) {
+      val walk = new RevWalk(jGitRepo);
+      walk.parseCommit(commitObject);
+    } else {
+      null
+    }
+  }
+
+  def readGitDir(repo: RepositoryConfig) = {
+
+    new Git(buildRepo(repo));
     
+  }
+
+  def buildRepo(repo: RepositoryConfig) = {
+    val builder = new RepositoryBuilder();
+    builder.setWorkTree(repo.folder).build();
   }
 }
