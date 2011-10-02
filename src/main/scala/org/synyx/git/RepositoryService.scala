@@ -8,7 +8,7 @@ import org.eclipse.jgit.revwalk.{RevWalk, RevCommit}
 /**
  * Functionality for talking to a local and remote git repo.
  */
-object RepositoryService {
+class RepositoryService {
 
   def updateRepo(repo: RepositoryConfig) = {
     val clone = new CloneCommand().setDirectory(repo.folder);

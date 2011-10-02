@@ -4,7 +4,8 @@ object App {
 
   def main(args: Array[String]): Unit = {
     // init irc bot
-    val ircConfig: IrcServer = ConfigurationService.readIrcConfig("irc.config")
+    val configService = new ConfigurationService
+    val ircConfig: IrcServer = configService.readIrcConfig("irc.config")
     val gitta = new Gitta()
     gitta.connect(ircConfig.server)
     gitta.setAutoNickChange(true)

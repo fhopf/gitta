@@ -9,7 +9,7 @@ import org.scalatest.matchers.ShouldMatchers
 @RunWith(classOf[JUnitRunner])
 class RepositoryServiceTest extends FunSuite with ShouldMatchers {
 
-  val service = RepositoryService
+  val service = new RepositoryService
 
   def setupRepo() = {
     val repo = new RepositoryConfig("test", new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");

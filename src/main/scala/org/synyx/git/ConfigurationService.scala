@@ -4,7 +4,7 @@ import scala.io.Source
 import scala.collection.immutable
 import java.io.File
 
-object ConfigurationService {
+class ConfigurationService {
 
   def readRepositoryConfig(path: String) = {
     val lines = Source.fromFile(path).getLines
