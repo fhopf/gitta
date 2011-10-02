@@ -8,10 +8,9 @@ class ConfigurationService {
 
   def readRepositoryConfig(path: String) = {
     val lines = Source.fromFile(path).getLines
-    val filtered = lines.map(_.split(" ")).filter(_.length == 3).map {
+    lines.map(_.split(" ")).filter(_.length == 3).map {
       tokens: Array[String] => new RepositoryConfig(tokens lift 0 get, new File(tokens lift 1 get), tokens lift 2 get)
     }
-    filtered
   }
 
   def readIrcConfig(path: String) = {
