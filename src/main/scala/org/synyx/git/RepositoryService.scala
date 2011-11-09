@@ -21,11 +21,12 @@ class RepositoryService {
   def log(repo: RepositoryConfig) = {
 
     val git = readGitDir(repo)
-    
+
+    // TODO return scala collection instead of Java list
     git.log().call();
   }
 
-  def log(repo: RepositoryConfig, commit: String) = {
+  def log(repo: RepositoryConfig, commit: String): RevCommit = {
     val jGitRepo = buildRepo(repo)
 
     val commitObject = jGitRepo.resolve(commit)
@@ -37,13 +38,13 @@ class RepositoryService {
     }
   }
 
-  def readGitDir(repo: RepositoryConfig) = {
+  def readGitDir(repo: RepositoryConfig): Git = {
 
     new Git(buildRepo(repo));
     
   }
 
-  def buildRepo(repo: RepositoryConfig) = {
+  def buildRepo(repo: RepositoryConfig): Repository = {
     val builder = new RepositoryBuilder();
     builder.setWorkTree(repo.folder).build();
   }
