@@ -9,10 +9,9 @@ class Gitta extends PircBot {
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) = {
     val priv = privateMessage(message)
-    if (priv.equals("help")) {
-      sendHelpMessage(channel)
-    } else if (priv.equals("exit")) {
-      System.exit(0)
+    priv match {
+	case "help" => sendHelpMessage(channel)
+    	case "exit" => System.exit(0)
     }
   }
 
