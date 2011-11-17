@@ -30,7 +30,6 @@ class RepositoryServiceTest extends FunSuite with ShouldMatchers {
   test("log returns a list of commits") {
     val repo = setupRepo
 
-    import scala.collection.JavaConversions._
     val commits = service.log(repo)
 
     commits.isEmpty should be(false)

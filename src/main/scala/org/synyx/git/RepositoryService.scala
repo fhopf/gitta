@@ -5,12 +5,14 @@ import java.io.File
 import org.eclipse.jgit.lib.{ObjectId, AnyObjectId, Repository, RepositoryBuilder}
 import org.eclipse.jgit.revwalk.{RevWalk, RevCommit}
 
+import scala.collection.JavaConversions._
+
 /**
  * Functionality for talking to a local and remote git repo.
  */
 class RepositoryService {
 
-  def updateRepo(repo: RepositoryConfig) = {
+  def updateRepo(repo: RepositoryConfig): Unit = {
     val clone = new CloneCommand().setDirectory(repo.folder);
     val git = clone.setURI(repo.url).call();
 
@@ -18,12 +20,11 @@ class RepositoryService {
 
   }
 
-  def log(repo: RepositoryConfig) = {
+  def log(repo: RepositoryConfig): Iterable[RevCommit] = {
 
     val git = readGitDir(repo)
 
-    // TODO return scala collection instead of Java list
-    git.log().call();
+    iterableAsScalaIterable(git.log().call());
   }
 
   def log(repo: RepositoryConfig, commit: String): RevCommit = {
