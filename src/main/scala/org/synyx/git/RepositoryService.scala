@@ -39,6 +39,27 @@ class RepositoryService {
     }
   }
 
+  // TODO this is exactly the same code as above 
+  // refactor and pass in a function 
+  def logSince(repo: RepositoryConfig, commit: RevCommit): Iterable[RevCommit] = {
+    val jGitRepo = buildRepo(repo)
+    
+    commit match {
+      case null => null
+      case _ => {
+        val walk = new RevWalk(jGitRepo)
+        // TODO add the action for getting a List of commits
+        null
+      }
+    }
+  }
+
+
+  // TODO use Option?
+  def latestCommit(repo: RepositoryConfig): RevCommit = {
+    log(repo) head	
+  }
+
   def readGitDir(repo: RepositoryConfig): Git = {
 
     new Git(buildRepo(repo));
