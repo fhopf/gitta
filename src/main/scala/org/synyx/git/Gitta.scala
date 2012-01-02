@@ -1,27 +1,45 @@
 package org.synyx.git
 
 import org.jibble.pircbot.PircBot
-import math.Ordering.String
 
-class Gitta(val gittaService: GittaServiceImpl) extends PircBot {
+class Gitta(private val configService: ConfigurationService, private val repositoryService: RepositoryService) extends PircBot {
 
   setName("Gitta")
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) = {
     val priv = privateMessage(message)
     priv match {
-	  case "help" => sendHelpMessage(channel)
-    case "exit" => System.exit(0)
-    case "refresh" => gittaService.refresh(new PircBotMessageService(this))
+      case "help" => sendHelpMessage(channel)
+      case "exit" => System.exit(0)
+      case "refresh" => refresh
     }
   }
 
-  def sendHelpMessage(channel: String) = {
+  private def refresh() {
+
+    val repoConfigs = configService.readRepositoryConfig("repo.config")
+    val ircConfig = configService.readIrcConfig("irc.config")
+
+    val commits: Iterable[Commit] = repositoryService.refresh(repoConfigs)
+
+    println(commits)
+
+    for (commit <- commits) {
+      val message = String.format("%s (%s): %s", commit.repoName, commit.getAuthorName(), commit.getMessage)
+      println(message)
+      for (channel <- ircConfig.channels) {
+        sendMessage(channel, message)
+      }
+    }
+  }
+
+
+  private def sendHelpMessage(channel: String) = {
     sendMessage(channel, "Commands I understand: help (prints this message)")
     sendMessage(channel, "exit")
   }
 
-  def privateMessage(message: String) = {
+  private def privateMessage(message: String) = {
     if (message.startsWith(getName())) {
       // name + :
       val priv = message.substring(getName().length() + 1, message.length()).trim()

@@ -6,7 +6,7 @@ object App {
     // init irc bot
     val configService = new ConfigurationService
     val ircConfig: IrcServer = configService.readIrcConfig("irc.config")
-    val gitta = new Gitta(new GittaServiceImpl(new RepositoryService(), configService))
+    val gitta = new Gitta(configService, new RepositoryService())
     gitta.connect(ircConfig.server)
     gitta.setAutoNickChange(true)
     gitta.setVerbose(true)

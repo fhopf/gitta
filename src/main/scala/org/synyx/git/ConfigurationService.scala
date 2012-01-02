@@ -6,11 +6,11 @@ import java.io.File
 
 class ConfigurationService {
 
-  def readRepositoryConfig(path: String): Iterator[RepositoryConfig] = {
+  def readRepositoryConfig(path: String): Iterable[RepositoryConfig] = {
     val lines = Source.fromFile(path).getLines
     lines.map(_.split(" ")).filter(_.length == 3).map {
       tokens: Array[String] => new RepositoryConfig(tokens(0), new File(tokens(1)), tokens(2))
-    }
+    }.toIterable
   }
 
   def readIrcConfig(path: String): IrcServer = {
