@@ -45,11 +45,10 @@ class RepositoryService {
     val jGitRepo = buildRepo(repo)
     
     commit match {
-      case null => null
+      // TODO this returns all commits, this is probably too much for a normal startup ;)
+      case null => log(repo)
       case _ => {
-        val walk = new RevWalk(jGitRepo)
-        // TODO add the action for getting a List of commits
-        null
+        readGitDir(repo).log().not(commit).call()
       }
     }
   }

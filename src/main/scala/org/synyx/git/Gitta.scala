@@ -3,15 +3,16 @@ package org.synyx.git
 import org.jibble.pircbot.PircBot
 import math.Ordering.String
 
-class Gitta extends PircBot {
+class Gitta(val gittaService: GittaServiceImpl) extends PircBot {
 
   setName("Gitta")
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) = {
     val priv = privateMessage(message)
     priv match {
-	case "help" => sendHelpMessage(channel)
-    	case "exit" => System.exit(0)
+	  case "help" => sendHelpMessage(channel)
+    case "exit" => System.exit(0)
+    case "refresh" => gittaService.refresh(new PircBotMessageService(this))
     }
   }
 

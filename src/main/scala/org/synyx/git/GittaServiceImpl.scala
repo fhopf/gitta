@@ -1,15 +1,22 @@
 package org.synyx.git
 
-class GittaServiceImpl(val messageService: PircBotMessageService, val repoService: RepositoryService, val configService: ConfigurationService) {
+import org.eclipse.jgit.revwalk.RevCommit
+
+class GittaServiceImpl(val repoService: RepositoryService, val configService: ConfigurationService) {
 
   // TODO try to get rid of all the loops
-  def refresh() {
-    val repoConfigs = configService.readRepositoryConfig("/todo")
-    val ircConfig = configService.readIrcConfig("/todo")
+  def refresh(messageService: PircBotMessageService) {
+    val repoConfigs = configService.readRepositoryConfig("repo.config")
+    val ircConfig = configService.readIrcConfig("irc.config")
     for (repoConfig <- repoConfigs) {
-      
-      // get current commit
-      val latestCommit = repoService.latestCommit(repoConfig)
+
+      var latestCommit: RevCommit = null
+      if(! repoConfig.isCheckedOut()) {
+        repoService.updateRepo(repoConfig)
+      } else {
+        // get current commit
+        latestCommit = repoService.latestCommit(repoConfig)
+      }
 
       // update
       repoService.updateRepo(repoConfig)
@@ -19,7 +26,7 @@ class GittaServiceImpl(val messageService: PircBotMessageService, val repoServic
       if(repoService.latestCommit(repoConfig) != latestCommit) {
         // feels like there should be a more functional way to this
         for (commit <- repoService.logSince(repoConfig, latestCommit)) {
-          val message = "" //String.format("Test", 1)
+          val message = String.format("%s: %s", commit.getAuthorIdent.getEmailAddress, commit.getShortMessage)
           for (channel <- ircConfig.channels) {
             messageService.sendMessage(channel, message)
           }

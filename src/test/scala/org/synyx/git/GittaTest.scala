@@ -9,12 +9,12 @@ import org.scalatest.matchers.ShouldMatchers
 class GittaTest extends FunSuite with ShouldMatchers {
 
   test("message help") {
-    val gitta = new Gitta()
+    val gitta = new Gitta(null)
     gitta.privateMessage("Gitta: help") should be("help")
   }
 
   test("ignored message") {
-    val gitta = new Gitta()
+    val gitta = new Gitta(null)
     gitta.privateMessage("ignored message") should be("")
   }
 }
