@@ -6,7 +6,7 @@ class Gitta(private val configService: ConfigurationService, private val reposit
 
   setName("Gitta")
 
-  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) = {
+  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
     val priv = privateMessage(message)
     priv match {
       case "help" => sendHelpMessage(channel)
@@ -22,20 +22,22 @@ class Gitta(private val configService: ConfigurationService, private val reposit
 
     val commits: Iterable[Commit] = repositoryService.refresh(repoConfigs)
 
-    println(commits)
-
-    for (commit <- commits) {
-      val message = String.format("%s (%s): %s", commit.repoName, commit.getAuthorName(), commit.getMessage)
-      println(message)
-      for (channel <- ircConfig.channels) {
+    for (channel <- ircConfig.channels) {
+      for (commit <- commits.take(5)) {
+        val message = String.format("%s (%s): %s", commit.repoName, commit.getAuthorName(), commit.getMessage)
         sendMessage(channel, message)
       }
+      if (commits.size > 5) {
+        sendMessage(channel, "(...)")
+      }
     }
+
   }
 
 
-  private def sendHelpMessage(channel: String) = {
+  private def sendHelpMessage(channel: String) {
     sendMessage(channel, "Commands I understand: help (prints this message)")
+    sendMessage(channel, "refresh (checks for any updates)")
     sendMessage(channel, "exit")
   }
 

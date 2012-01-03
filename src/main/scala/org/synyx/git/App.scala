@@ -2,7 +2,7 @@ package org.synyx.git
 
 object App {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     // init irc bot
     val configService = new ConfigurationService
     val ircConfig: IrcServer = configService.readIrcConfig("irc.config")

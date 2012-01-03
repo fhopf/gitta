@@ -13,7 +13,7 @@ import collection.mutable.ListBuffer
  */
 class RepositoryService {
 
-  private def updateRepo(repo: RepositoryConfig): Unit = {
+  private def updateRepo(repo: RepositoryConfig) {
     val clone = new CloneCommand().setDirectory(repo.folder);
     val git = clone.setURI(repo.url).call();
 
