@@ -1,4 +1,5 @@
 apply plugin: 'scala'
+apply plugin: 'java'
 
 repositories {
 	mavenLocal()
@@ -18,3 +19,7 @@ dependencies {
 }
 
 
+task run(dependsOn: 'classes', type: JavaExec) {
+    main = 'org.synyx.git.App'
+    classpath = sourceSets.main.runtimeClasspath
+}
