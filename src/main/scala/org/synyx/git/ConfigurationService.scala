@@ -1,7 +1,6 @@
 package org.synyx.git
 
 import scala.io.Source
-import scala.collection.immutable
 import java.io.File
 
 class ConfigurationService {

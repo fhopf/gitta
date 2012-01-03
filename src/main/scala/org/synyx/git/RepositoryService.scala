@@ -65,13 +65,15 @@ class RepositoryService {
     println(repoConfigs)
     
     var commits: Iterable[Commit] = new ListBuffer[Commit]
+
     for (repoConfig <- repoConfigs) {
-      var theLatestCommit: RevCommit = null
-      if (!repoConfig.isCheckedOut()) {
+
+      val theLatestCommit: RevCommit = if (!repoConfig.isCheckedOut()) {
         updateRepo(repoConfig)
+        null
       } else {
         // get current commit
-        theLatestCommit = latestCommit(repoConfig)
+        latestCommit(repoConfig)
       }
 
       // update
