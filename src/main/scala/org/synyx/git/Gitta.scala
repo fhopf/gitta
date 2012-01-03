@@ -41,7 +41,7 @@ class Gitta(private val configService: ConfigurationService, private val reposit
     sendMessage(channel, "exit")
   }
 
-  private def privateMessage(message: String) = {
+  def privateMessage(message: String) = {
     if (message.startsWith(getName())) {
       // name + :
       val priv = message.substring(getName().length() + 1, message.length()).trim()
