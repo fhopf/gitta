@@ -19,7 +19,7 @@ dependencies {
 }
 
 
-task run(dependsOn: 'classes', type: JavaExec) {
+task run(dependsOn: 'test', type: JavaExec) {
     main = 'org.synyx.git.App'
     classpath = sourceSets.main.runtimeClasspath
 }
