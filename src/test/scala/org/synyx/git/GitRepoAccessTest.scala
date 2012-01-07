@@ -7,9 +7,9 @@ import org.junit.runner.RunWith
 import org.scalatest.matchers.ShouldMatchers
 
 @RunWith(classOf[JUnitRunner])
-class RepositoryServiceTest extends FunSuite with ShouldMatchers {
+class GitRepoAccessTest extends FunSuite with ShouldMatchers {
 
-  val service = new RepositoryService
+  val service = new GitRepoAccess
 
   def setupRepo() = {
     val repo = new RepositoryConfig("test", new File("/tmp/" + System.currentTimeMillis()), "git://github.com/fhopf/maven-deployment-from-webapp.git");

@@ -1,6 +1,6 @@
 package org.synyx.git
 
-import org.eclipse.jgit.api.{CloneCommand, LogCommand, Git}
+import org.eclipse.jgit.api.{CloneCommand, Git}
 import java.io.File
 import org.eclipse.jgit.revwalk.{RevWalk, RevCommit}
 
@@ -10,7 +10,7 @@ import org.eclipse.jgit.lib._
 /**
  * Functionality for talking to a local and remote git repo.
  */
-class RepositoryService {
+class GitRepoAccess {
 
   def updateRepo(repo: RepositoryConfig) {
     val clone = new CloneCommand().setDirectory(repo.folder);

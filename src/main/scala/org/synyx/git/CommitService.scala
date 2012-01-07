@@ -3,7 +3,7 @@ package org.synyx.git
 import collection.mutable.ListBuffer
 import org.eclipse.jgit.revwalk.RevCommit
 
-class CommitService(private val repoService: RepositoryService) {
+class CommitService(private val repoService: GitRepoAccess) {
 
   def refresh(repoConfigs: Iterable[RepositoryConfig]): Iterable[Commit] = {
 
