@@ -6,7 +6,6 @@ import org.eclipse.jgit.revwalk.{RevWalk, RevCommit}
 
 import scala.collection.JavaConversions._
 import org.eclipse.jgit.lib._
-import collection.mutable.ListBuffer
 
 /**
  * Functionality for talking to a local and remote git repo.
@@ -59,37 +58,6 @@ class RepositoryService {
   def latestCommit(repo: RepositoryConfig): RevCommit = {
     log(repo) head
   }
-
-  def refresh(repoConfigs: Iterable[RepositoryConfig]): Iterable[Commit] = {
-
-    println(repoConfigs)
-    
-    var commits: Iterable[Commit] = new ListBuffer[Commit]
-
-    for (repoConfig <- repoConfigs) {
-
-      val theLatestCommit: RevCommit = if (!repoConfig.isCheckedOut()) {
-        updateRepo(repoConfig)
-        null
-      } else {
-        // get current commit
-        latestCommit(repoConfig)
-      }
-
-      // update
-      updateRepo(repoConfig)
-
-      // log from last commit to now
-      // only do something if there are new commits
-      if (latestCommit(repoConfig) != theLatestCommit) {
-        val revCommits: Iterable[RevCommit] = logSince(repoConfig, theLatestCommit)
-        commits = commits ++ (revCommits.map(revCommit => new Commit(repoConfig.name, revCommit)))
-      }
-    }
-
-    commits
-  }
-
 
   private def readGitDir(repo: RepositoryConfig): Git = {
 

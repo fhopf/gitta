@@ -2,7 +2,7 @@ package org.synyx.git
 
 import org.jibble.pircbot.PircBot
 
-class Gitta(private val configService: ConfigurationService, private val repositoryService: RepositoryService) extends PircBot {
+class Gitta(private val configService: ConfigurationService, private val commitService: CommitService) extends PircBot {
 
   setName("Gitta")
 
@@ -20,7 +20,7 @@ class Gitta(private val configService: ConfigurationService, private val reposit
     val repoConfigs = configService.readRepositoryConfig("repo.config")
     val ircConfig = configService.readIrcConfig("irc.config")
 
-    val commits: Iterable[Commit] = repositoryService.refresh(repoConfigs)
+    val commits: Iterable[Commit] = commitService.refresh(repoConfigs)
 
     for (channel <- ircConfig.channels) {
       for (commit <- commits.take(5)) {
