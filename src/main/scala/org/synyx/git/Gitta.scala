@@ -20,18 +20,20 @@ class Gitta(private val configService: ConfigurationService, private val commitS
     val repoConfigs = configService.readRepositoryConfig("repo.config")
     val ircConfig = configService.readIrcConfig("irc.config")
 
-    val commits: Iterable[Commit] = commitService.refresh(repoConfigs)
+    for (repoConfig <- repoConfigs) {
+    
+      val commits: Iterable[Commit] = commitService.refresh(repoConfig)
 
-    for (channel <- ircConfig.channels) {
-      for (commit <- commits.take(5)) {
-        val message = String.format("%s (%s): %s", commit.repoName, commit.getAuthorName(), commit.getMessage)
-        sendMessage(channel, message)
-      }
-      if (commits.size > 5) {
-        sendMessage(channel, "(...)")
+      for (channel <- ircConfig.channels) {
+        for (commit <- commits.take(5)) {
+          val message = String.format("%s (%s): %s", commit.repoName, commit.getAuthorName(), commit.getMessage)
+          sendMessage(channel, message)
+        }
+        if (commits.size > 5) {
+          sendMessage(channel, "(...)")
+        }
       }
     }
-
   }
 
 

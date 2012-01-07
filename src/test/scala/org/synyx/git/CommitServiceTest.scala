@@ -26,7 +26,7 @@ class CommitServiceTest extends FunSuite with ShouldMatchers with MockitoSugar {
     when(repo1.isCheckedOut()).thenReturn(true)
     when(gitRepoMock.latestCommit(repo1)).thenReturn(lastCommit)
 
-    val result = commitService.refresh(List(repo1))
+    val result = commitService.refresh(repo1)
     result.size should be(0)
   }
   
@@ -43,7 +43,7 @@ class CommitServiceTest extends FunSuite with ShouldMatchers with MockitoSugar {
 
     val transformedCommit = new Commit("repoName", freshCommit)
 
-    val result = commitService.refresh(List(repo1))
+    val result = commitService.refresh(repo1)
     result.size should be(1)
     result.toList(0) should be(transformedCommit)
 
