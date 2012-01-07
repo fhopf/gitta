@@ -1,9 +1,5 @@
 Gitta - an IRC bot that can monitor Git repositories and log commits in IRC.
 
-Can join channels and contains some needed tests.
-
-Run using Maven: mvn scala:run -DmainClass=org.synyx.git.App
-
 Run using Gradle: gradle run
 
 This is my first project in Scala so it's likely that the code will be quite Javaesque.
