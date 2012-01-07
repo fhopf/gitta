@@ -2,7 +2,7 @@ package org.synyx.git
 
 import org.eclipse.jgit.revwalk.RevCommit
 
-class Commit(val repoName: String, private val revCommit: RevCommit) {
+case class Commit(val repoName: String, private val revCommit: RevCommit) {
 
   def getPaths(): Iterable[String] = {
     // TODO read from commit

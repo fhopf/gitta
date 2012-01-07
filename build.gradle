@@ -2,7 +2,8 @@ apply plugin: 'scala'
 apply plugin: 'java'
 
 repositories {
-	mavenLocal()
+    mavenLocal()
+	mavenCentral()
 }
 
 dependencies {
@@ -11,11 +12,13 @@ dependencies {
     scalaTools 'org.scala-lang:scala-library:2.9.0'
 
 	compile 'com.jcraft:jsch:0.1.44-1'
+    compile 'org.eclipse.jgit:org.eclipse.jgit:1.0.0.201106090707-r'
+    compile 'org.scala-lang:scala-library:2.9.0'
+    compile 'pircbot:pircbot:1.5.0'
+
 	testCompile 'junit:junit:4.4'
-	compile 'org.eclipse.jgit:org.eclipse.jgit:1.0.0.201106090707-r'
-	compile 'org.scala-lang:scala-library:2.9.0'
 	testCompile 'org.scalatest:scalatest_2.9.0:1.6.1'
-	compile 'pircbot:pircbot:1.5.0'
+    testCompile 'org.mockito:mockito-all:1.8.5'
 }
 
 
